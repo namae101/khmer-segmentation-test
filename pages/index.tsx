@@ -36,30 +36,38 @@ const Home: React.FunctionComponent = () => {
   };
   const submitToApi = async () => {
     if (!input) {
-      console.log("Empty man fill some data");
+      toast.warn("Please Input Data / សូមបញ្ចូលទិន្នន័យ");
+      return;
     }
-    const data = await localApiSegmentationCall({ input });
-    console.log(data);
-    setOutput(data.data.ws.commas_sentence);
-    toast("Success / ជោគជ័យ");
+    try {
+      const response = await localApiSegmentationCall({ input });
+      const wordList = response.data.ws.words_list;
+      const colonSeperatedSentence = wordList.reduce<string>(
+        (acc, current) => `${acc}|${current.val}`,
+        ""
+      );
+      setOutput(colonSeperatedSentence);
+      setOutputZWSP("");
+      toast.success("Success / ជោគជ័យ");
+    } catch (e) {
+      toast.error("Error / បរាជ័យ");
+    }
   };
 
-  const submitCommaText = async () => {
-    const replacedDoubleComma = output.replaceAll(",,", ",;;​");
-    const zwspText = replacedDoubleComma.replaceAll(",", "​");
-    const finalText = zwspText.replaceAll(";;", ",");
-    setOutputZWSP(finalText);
-    toast("Success / ជោគជ័យ");
+  const submitSemiColonText = async () => {
+    const zwspText = output.replaceAll("|", "​");
+    setOutputZWSP(zwspText);
+    toast.success("Success / ជោគជ័យ");
   };
   const copyToClipBoard = () => {
     navigator.clipboard.writeText(outputZWSP);
-    toast("Copied / កូពីជោគជ័យ");
+    toast.success("Copied / កូពីជោគជ័យ");
   };
 
   const titleText = "Khmer Segmentation Test / ការ​ធ្វើ​តេស​ការ​ផ្ដាច់​ពាក្យ";
   const inputLabelText = "Input Text / ប្រយោគ​ធាតុ​ចូល";
   const commaLabelText =
-    "Comma Separated Result Text/ ប្រយោគ​ដែល​មាន​ពាក្យ​ផ្ដាច់​ដោយ​ក្បៀស";
+    "'|' Separated Result Text/ ប្រយោគ​ដែល​មាន​ពាក្យ​ផ្ដាច់​ដោយ​ '|'";
   const finalResultLabelText =
     "Zero Space Final Result Text / លទ្ធផល​នៃ​ការ​ផ្ដាច់​ពាក្យ";
 
@@ -81,7 +89,7 @@ const Home: React.FunctionComponent = () => {
         onChange={onOutputAreaChanges}
         tw="text-xl tracking-wider"
       />
-      <Button onClick={submitCommaText}>
+      <Button onClick={submitSemiColonText}>
         Change Comma To ZWSP / ប្រូក្បៀសទៅជាទទេរ
       </Button>
       <Label>{finalResultLabelText}</Label>

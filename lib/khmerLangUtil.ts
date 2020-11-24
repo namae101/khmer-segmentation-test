@@ -24,34 +24,25 @@ export const khmerLangSegmentInputSentence = async ({
   input,
 }: segmentationInputProps): Promise<AxiosResponse<KhmerLangResponse>> => {
   const data = { sentences: input };
-  try {
-    const res = await Axios.post(KHMER_LANG_API_URL, data, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    return res;
-  } catch (e) {
-    console.log(e);
-  }
-  return null;
+  const res = await Axios.post(KHMER_LANG_API_URL, data, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return res;
 };
 
 export const localApiSegmentationCall = async ({
   input,
 }: segmentationInputProps): Promise<AxiosResponse<KhmerLangResponse>> => {
   const data = { sentences: input };
-  try {
-    const res = await Axios.post("/api/segmentation", data, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    return res;
-  } catch (e) {
-    console.log(e);
-  }
-  return null;
+
+  const res = await Axios.post("/api/segmentation", data, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return res;
 };
 
 export const placeholderForSpellCheck = async () => {
