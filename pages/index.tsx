@@ -93,12 +93,7 @@ const Home: React.FunctionComponent = () => {
         Change Comma To ZWSP / ប្រូក្បៀសទៅជាទទេរ
       </Button>
       <Label>{finalResultLabelText}</Label>
-      <TextArea
-        rows={10}
-        value={outputZWSP}
-        onChange={onOutputAreaChanges}
-        tw="text-lg"
-      />
+      <TextArea rows={10} value={outputZWSP} tw="text-lg" />
       <Button onClick={copyToClipBoard}>Copy Result / កូពីលទ្ធផល</Button>
       <ToastContainer
         position="bottom-right"
