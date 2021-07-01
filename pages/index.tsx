@@ -41,12 +41,7 @@ const Home: React.FunctionComponent = () => {
     }
     try {
       const response = await localApiSegmentationCall({ input });
-      const wordList = response.data.ws.words_list;
-      const colonSeperatedSentence = wordList.reduce<string>(
-        (acc, current) => `${acc}|${current.val}`,
-        ""
-      );
-      setOutput(colonSeperatedSentence);
+      setOutput(response.data.data);
       setOutputZWSP("");
       toast.success("Success / ជោគជ័យ");
     } catch (e) {
@@ -103,7 +98,7 @@ const Home: React.FunctionComponent = () => {
         draggable={false}
       />
       <p tw="text-lg text-center text-white font-bold">
-        Thank To KhmerLang for Khmer Segmentation Work and the API
+        Thank To Bong Rina Buoy For his Pre-Trained Model
       </p>
       <Link href="https://github.com/namae101/khmer-segmentation-test">
         <p tw="font-bold text-blue-700 text-center cursor-pointer">

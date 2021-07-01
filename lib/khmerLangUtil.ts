@@ -5,20 +5,10 @@ interface segmentationInputProps {
   input: string;
 }
 
-export const KHMER_LANG_API_URL = "http://khmerlang.com/api/segment_words";
+export const KHMER_LANG_API_URL = "https://khmer-segmentation-api.rover.narong.dev/predict";
 
-type KhmerLangWord = {
-  val: string;
-  term: string;
-  pos: string;
-};
 type KhmerLangResponse = {
-  ws: {
-    words_list: KhmerLangWord[];
-    zero_space_sentence: string;
-    commas_sentence: string;
-    count_not_km_word: number;
-  };
+  "data": string;
 };
 export const khmerLangSegmentInputSentence = async ({
   input,
